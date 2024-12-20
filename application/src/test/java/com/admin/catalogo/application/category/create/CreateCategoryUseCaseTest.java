@@ -65,7 +65,59 @@ public class CreateCategoryUseCaseTest {
 
         //Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
 
-        Mockito.verify(categoryGateway, never()).create(any());
+        Mockito.verify(categoryGateway, times(expectedErrorCount)).create(any());
     }
 
+    @Test
+    public void testeCase3() {
+        final String expectedName = "Filmes";
+        final var expectedDescription = "A Categoria mais assistida";
+        final var expectedIsActive = false;
+
+        final var aCommand = CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
+
+        when(categoryGateway.create(any())).thenAnswer( returnsFirstArg());
+
+        final var actualOutput = useCase.execute(aCommand);
+
+        assertNotNull(actualOutput);
+        assertNotNull(actualOutput.id());
+
+        verify(categoryGateway, times(1))
+                .create(argThat( c -> Objects.equals(expectedName, c.getName())
+                        && Objects.equals(expectedDescription, c.getDescription())
+                        && Objects.equals(expectedIsActive, c.isActive())
+                        && Objects.nonNull(c.getId())
+                        && Objects.nonNull(c.getCreatedAt())
+                        && Objects.nonNull(c.getUpdatedAt())
+                        && Objects.nonNull(c.getDeletedAt())
+                ));
+    }
+
+    @Test
+    public void testeCase4() {
+        final String expectedName = "Filmes";
+        final var expectedDescription = "A Categoria mais assistida";
+        final var expectedIsActive = true;
+        final var expectedErrorMessage = "Gateway Error";
+
+        final var aCommand = CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
+
+        when(categoryGateway.create(any())).thenThrow(new IllegalStateException(expectedErrorMessage));
+
+        final var actualException = Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(aCommand));
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
+
+        verify(categoryGateway, times(1))
+                .create(argThat( c -> Objects.equals(expectedName, c.getName())
+                        && Objects.equals(expectedDescription, c.getDescription())
+                        && Objects.equals(expectedIsActive, c.isActive())
+                        && Objects.nonNull(c.getId())
+                        && Objects.nonNull(c.getCreatedAt())
+                        && Objects.nonNull(c.getUpdatedAt())
+                        && Objects.isNull(c.getDeletedAt())
+                ));
+
+    }
 }
