@@ -2,7 +2,6 @@ package com.admin.catalogo.domain;
 
 import com.admin.catalogo.domain.validation.ValidationHandler;
 
-import javax.xml.validation.ValidatorHandler;
 import java.util.Objects;
 
 public abstract class Entity<ID extends Identifier> {
