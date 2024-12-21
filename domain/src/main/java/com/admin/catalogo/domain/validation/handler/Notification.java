@@ -12,7 +12,7 @@ public class Notification implements ValidationHandler {
 
     private final List<Error> erros;
 
-    public Notification(final List<Error> erros) {
+    private Notification(final List<Error> erros) {
         this.erros = erros;
     }
 
@@ -23,6 +23,11 @@ public class Notification implements ValidationHandler {
     public static Notification create(final Error erros) {
         return new Notification(new ArrayList<>()).append(erros);
     }
+
+    public static Notification create(final Throwable t) {
+        return create(new Error(t.getMessage()));
+    }
+
 
     @Override
     public Notification append(Error anError) {
@@ -50,6 +55,6 @@ public class Notification implements ValidationHandler {
 
     @Override
     public List<Error> getErrors() {
-        return this.getErrors();
+        return this.erros;
     }
 }
