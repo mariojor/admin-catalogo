@@ -2,7 +2,7 @@ name: ci-java-workflow
 on: [push]
 
 jobs:
-  build:
+  check-application:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
