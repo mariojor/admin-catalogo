@@ -7,13 +7,19 @@ on:
 jobs:
   check-application:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        jvm-version: [ adopt@1.11, adopt@1.17 ]
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+#      - name: Set up JDK 17
+      - uses: actions/setup-java@v4
         with:
-          java-version: 17
-          distribution: 'zulu'
+          java-version: ${{ matrix.jvm-version }}
+          distribution: ''
+      #        with:
+#          java-version: 17
+#          distribution: 'zulu'
       - name: Grant execute permission for Gradle Wrapper
         run: chmod +x ./gradlew
       - name: Build with Gradle
