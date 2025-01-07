@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        jvm-version: [11, 17]
+        jvm-version: [21, 17]
         distribution: ['zulu', 'adopt']
     steps:
       - name: Checkout the code
