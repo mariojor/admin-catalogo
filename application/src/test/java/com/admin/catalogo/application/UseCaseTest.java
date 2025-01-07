@@ -10,7 +10,7 @@ public class UseCaseTest {
     @Test
     public void testNewUseCase() {
 
-//        System.out.println("Test new use case");
+        System.out.println("Test new use case");
     }
 
 }
