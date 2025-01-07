@@ -9,14 +9,17 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        jvm-version: [ adopt@1.11, adopt@1.17 ]
+        jvm-version: [11, 17]
+        distribution: ['zulu', 'adopt']
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout the code
+        uses: actions/checkout@v4
 #      - name: Set up JDK 17
-      - uses: actions/setup-java@v4
+      - name: Set Up JDK
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.jvm-version }}
-          distribution: ''
+          distribution: ${{ matrix.distribution }}
       #        with:
 #          java-version: 17
 #          distribution: 'zulu'
