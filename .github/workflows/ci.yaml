@@ -7,6 +7,9 @@ on:
 jobs:
   check-application:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        jvm-version: [ adopt@1.11, adopt@1.17 ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
